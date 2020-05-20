@@ -5,20 +5,19 @@ import './Input.css'
 
 
 
-const inputReducer = (state, action)=>{   //la funcion ejecutada por el reducer, recibe dos parametros, el estado actual y una accion
-
-    switch (action.type){  //se analiza el tipo de accion despachada
+const inputReducer = (state, action)=>{   
+    switch (action.type){  
 
         case 'CHANGE':
             return{
-                ...state,           //se clona el estado actual y sobre el clon se ejecutan los cambios para mantener la inmutabilidad del estado
+                ...state,         
                 value: action.val,
-                isValid: validate(action.val, action.validators)        //en el clon se modifican las proiedads que se necsitaban modificcar   
+                isValid: validate(action.val, action.validators)         
             }
          case 'TOUCHED':
              return{
                  ...state,
-                 isTouched: true   //isTouched determina si el formulario ha sido tocado almenos una ves por el usuario para recien ahi mostrar los mensajes arrojados por las validaciones
+                 isTouched: true  
              }   
         
         default:
@@ -34,11 +33,11 @@ const Input = props =>{
 
 
 
-    const [inputState , dispatch] = useReducer(inputReducer,{ value: props.value || '',          //el primer argumento es la funcion (siempre ejecutada fuera del componente)
-                                                              isValid:props.isValid || false,   //el segundo argumento es el estado inicial
-                                                              isTouched: false} )                //useReducer retorna un estado y una funcion dispatch que envia la accion a la funcion pasada como argumento
-                                                                                                 //la funcion dispatch debera recibir como argumento un objeto con la propiedad type que determina la accion  
-                                                                                                 // y el payload con las propiedades para modificar el estado {type:'ACTION', payload: info}
+    const [inputState , dispatch] = useReducer(inputReducer,{ value: props.initialValue || '',        
+                                                              isValid:props.initialValid || false, 
+                                                              isTouched: false} )               
+                                                                                                 
+                                                                                         
 
     
     
@@ -46,9 +45,9 @@ const Input = props =>{
     const {value, isValid} = inputState
     
     
-    useEffect(()=>{                       //usamos useEffect para ejecutar la propiedad props.onInput cuando se modifiquen cualquiera de        
-        onInput(id, value, isValid)       //las propiedades pasadas como dependencias [onInput, id, value, isValid], la props onInput 
-    }, [onInput, id, value, isValid])     //ejecutara una funcion definida en el componente NewPlace
+    useEffect(()=>{                      
+        onInput(id, value, isValid)      
+    }, [onInput, id, value, isValid])    
     
     
     const changeHandler = event =>{
@@ -90,7 +89,3 @@ const Input = props =>{
 
 
 export default Input
-
-
-//reducer recibe una accion y el estado actual, luego actualiza el estado en base a la accion despachada y retorna el estado
-//actualizado
