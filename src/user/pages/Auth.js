@@ -1,14 +1,17 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 
 import Button from '../../shared/components/FormElements/Button'
 import Input from '../../shared/components/FormElements/Input'
 import {VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from '../../shared/util/validators'
 import Card from '../../shared/components/UIelements/Card'
 import {useForm} from '../../shared/hooks/form-hook'
+import {AuthContext} from '../../shared/context/AuthContext'
 import './Auth.css'
 
 
 const Auth = props=>{
+
+    const auth = useContext(AuthContext)
 
     const [loginMode, setLoginMode] = useState(true)
 
@@ -49,7 +52,14 @@ const Auth = props=>{
 
     const onSubmitHandler =(event)=>{
         event.preventDefault()
-        console.log('Logged...');
+
+        if(loginMode){
+            auth.login()
+        }
+        else{
+            console.log('sign up mode');
+        }
+
     }
     console.log(formState);
 
